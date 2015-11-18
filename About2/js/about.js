@@ -62,7 +62,7 @@ About.scrollFnc=function(e){
 	$(".loading").css({"bottom":"auto","top":offsetTop});
 	$(".loading").animate({top:"20px"},600,function(){
 		$(".back-home a").css({"opacity":"1"});
-		setTimeout(function(){$(".loading").remove();},500);
+		setTimeout(function(){$(".loading").remove();},800);
 		About.loadHeaderPage();
 	});
 	$(".loading-description").remove();
@@ -83,5 +83,9 @@ About.loadHeaderPage=function(){
  * 加载各个页面特效
  */
 About.addPageAnimate=function(){
-	
+	if(About.scrollIndex==1){
+		$(".nav-bg").removeClass("nav-bg-show");
+	}else if(About.scrollIndex==2){
+		$(".nav-bg").addClass("nav-bg-show");
+	}
 }
