@@ -41,12 +41,12 @@ About.scrollFnc=function(e){
 	if(dictValue<0){
 		if(About.scrollIndex<$("div[id*=page]").length){
 			About.scrollIndex++;
-			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:1000});
+			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:800});
 		}
 	}else{
 		if(About.scrollIndex>1){
 			About.scrollIndex--;
-			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:1000});
+			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:800});
 		}
 	}
 	About.removeScrollListener();
@@ -62,7 +62,7 @@ About.scrollFnc=function(e){
 	$(".loading").css({"bottom":"auto","top":offsetTop});
 	$(".loading").animate({top:"20px"},600,function(){
 		$(".back-home a").css({"opacity":"1"});
-		setTimeout(function(){$(".loading").remove();},500);
+		setTimeout(function(){$(".loading").fadeOut();},500);
 		About.loadHeaderPage();
 	});
 	$(".loading-description").remove();
@@ -83,5 +83,32 @@ About.loadHeaderPage=function(){
  * 加载各个页面特效
  */
 About.addPageAnimate=function(){
-	
+	if(About.scrollIndex=="1"){
+		$(".nav-bg").removeClass("nav-bg-header");
+		$(".nav").removeClass("nav-toTop");
+		$("#page2 div ul li img:first-child").removeClass("fadeInLeft");
+		$("#page2 div ul li img:last-child").removeClass("fadeInRight");
+	}else if(About.scrollIndex=="2"){
+		$(".nav-bg").addClass("nav-bg-header");
+		$(".nav").addClass("nav-toTop");
+		About.randomAddAnimate("#page2 div ul li img:first-child","fadeInLeft",500);
+		About.randomAddAnimate("#page2 div ul li img:last-child","fadeInRight",500);
+	}
+}
+/**
+ * 随机延时加载特效
+ */
+About.randomAddAnimate=function(seleter,className,delayed){
+	var arr=[];
+	for(var i=0;i<$(seleter).length;i++){
+		arr[i]=i;
+	}
+	arr.sort(function(){return 0.5-Math.random()});//打乱数组
+	for(var i=0;i<arr.length;i++){
+		setTimeout("About.doAnimate($('"+seleter+"')["+arr[i]+"],'"+className+"')",delayed*i);
+	}
+}
+About.doAnimate=function(subObj,className){
+	console.log($(subObj).attr("src")+":"+className);
+	$(subObj).addClass(className);
 }
