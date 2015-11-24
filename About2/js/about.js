@@ -41,16 +41,16 @@ About.scrollFnc=function(e){
 	if(dictValue<0){
 		if(About.scrollIndex<$("div[id*=page]").length){
 			About.scrollIndex++;
-			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:800});
+			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:600});
 		}
 	}else{
 		if(About.scrollIndex>1){
 			About.scrollIndex--;
-			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:800});
+			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:600});
 		}
 	}
 	About.removeScrollListener();
-	setTimeout(function(){About.addScrollListener();},500);
+	setTimeout(function(){About.addScrollListener();},600);
 	About.addPageAnimate();//加载页面动画
 }
 /**
@@ -91,24 +91,29 @@ About.addPageAnimate=function(){
 	}else if(About.scrollIndex=="2"){
 		$(".nav-bg").addClass("nav-bg-header");
 		$(".nav").addClass("nav-toTop");
-		About.randomAddAnimate("#page2 div ul li img:first-child","fadeInLeft",500);
-		About.randomAddAnimate("#page2 div ul li img:last-child","fadeInRight",500);
+		var arr=About.randomArr(3);
+		for(var i=0;i<arr.length;i++){
+//			setTimeout($($("#page2 div ul li img:first-child")[arr[i]]).addClass("fadeInLeft");,i*500);
+//			setTimeout(function(){$($("#page2 div ul li img:last-child")[arr[i]]).addClass("fadeInRight");},i*500);
+			setTimeout("About.addClass('#page2 div ul li img:first-child',"+arr[i]+",'fadeInLeft')",500*i);
+			setTimeout("About.addClass('#page2 div ul li img:last-child',"+arr[i]+",'fadeInRight')",500*i);
+		}
 	}
 }
 /**
- * 随机延时加载特效
+ * 产生随机数组
  */
-About.randomAddAnimate=function(seleter,className,delayed){
+About.randomArr=function(len){
 	var arr=[];
-	for(var i=0;i<$(seleter).length;i++){
+	for(var i=0;i<len;i++){
 		arr[i]=i;
 	}
 	arr.sort(function(){return 0.5-Math.random()});//打乱数组
-	for(var i=0;i<arr.length;i++){
-		setTimeout("About.doAnimate($('"+seleter+"')["+arr[i]+"],'"+className+"')",delayed*i);
-	}
+	return arr;
 }
-About.doAnimate=function(subObj,className){
-	console.log($(subObj).attr("src")+":"+className);
-	$(subObj).addClass(className);
+/**
+ * 在指定对象上添加类
+ */
+About.addClass=function(className,i,target){
+	$($(className)[i]).addClass(target);
 }
