@@ -62,7 +62,7 @@ About.scrollFnc=function(e){
 	$(".loading").css({"bottom":"auto","top":offsetTop});
 	$(".loading").animate({top:"20px"},600,function(){
 		$(".back-home a").css({"opacity":"1"});
-		setTimeout(function(){$(".loading").fadeOut(600);},800);
+		setTimeout(function(){$(".loading").fadeOut();},500);
 		About.loadHeaderPage();
 	});
 	$(".loading-description").remove();
@@ -83,15 +83,37 @@ About.loadHeaderPage=function(){
  * 加载各个页面特效
  */
 About.addPageAnimate=function(){
-	if(About.scrollIndex==1){
-		$(".nav-bg").removeClass("nav-bg-show");
+	if(About.scrollIndex=="1"){
+		$(".nav-bg").removeClass("nav-bg-header");
 		$(".nav").removeClass("nav-toTop");
-		$(".fade2").removeClass("bounceInLeft");
-		$(".fade3").removeClass("bounceInRight");
-	}else if(About.scrollIndex==2){
-		$(".nav-bg").addClass("nav-bg-show");
+		$("#page2 div ul li img:first-child").removeClass("fadeInLeft");
+		$("#page2 div ul li img:last-child").removeClass("fadeInRight");
+	}else if(About.scrollIndex=="2"){
+		$(".nav-bg").addClass("nav-bg-header");
 		$(".nav").addClass("nav-toTop");
-		$(".fade2").addClass("bounceInLeft");
-		$(".fade3").addClass("bounceInRight");
+		var arr=About.randomArr(3);
+		for(var i=0;i<arr.length;i++){
+//			setTimeout($($("#page2 div ul li img:first-child")[arr[i]]).addClass("fadeInLeft");,i*500);
+//			setTimeout(function(){$($("#page2 div ul li img:last-child")[arr[i]]).addClass("fadeInRight");},i*500);
+			setTimeout("About.addClass('#page2 div ul li img:first-child',"+arr[i]+",'fadeInLeft')",500*i);
+			setTimeout("About.addClass('#page2 div ul li img:last-child',"+arr[i]+",'fadeInRight')",500*i);
+		}
 	}
+}
+/**
+ * 产生随机数组
+ */
+About.randomArr=function(len){
+	var arr=[];
+	for(var i=0;i<len;i++){
+		arr[i]=i;
+	}
+	arr.sort(function(){return 0.5-Math.random()});//打乱数组
+	return arr;
+}
+/**
+ * 在指定对象上添加类
+ */
+About.addClass=function(className,i,target){
+	$($(className)[i]).addClass(target);
 }
