@@ -41,16 +41,16 @@ About.scrollFnc=function(e){
 	if(dictValue<0){
 		if(About.scrollIndex<$("div[id*=page]").length){
 			About.scrollIndex++;
-			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:1000});
+			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:600});
 		}
 	}else{
 		if(About.scrollIndex>1){
 			About.scrollIndex--;
-			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:1000});
+			$("body").animate({"scrollTop":$("#page"+About.scrollIndex).offset().top},{easing:"easeOutSine",duration:600});
 		}
 	}
 	About.removeScrollListener();
-	setTimeout(function(){About.addScrollListener();},500);
+	setTimeout(function(){About.addScrollListener();},600);
 	About.addPageAnimate();//加载页面动画
 }
 /**
@@ -62,7 +62,7 @@ About.scrollFnc=function(e){
 	$(".loading").css({"bottom":"auto","top":offsetTop});
 	$(".loading").animate({top:"20px"},600,function(){
 		$(".back-home a").css({"opacity":"1"});
-		setTimeout(function(){$(".loading").remove();},800);
+		setTimeout(function(){$(".loading").fadeOut(600);},800);
 		About.loadHeaderPage();
 	});
 	$(".loading-description").remove();
@@ -85,7 +85,13 @@ About.loadHeaderPage=function(){
 About.addPageAnimate=function(){
 	if(About.scrollIndex==1){
 		$(".nav-bg").removeClass("nav-bg-show");
+		$(".nav").removeClass("nav-toTop");
+		$(".fade2").removeClass("bounceInLeft");
+		$(".fade3").removeClass("bounceInRight");
 	}else if(About.scrollIndex==2){
 		$(".nav-bg").addClass("nav-bg-show");
+		$(".nav").addClass("nav-toTop");
+		$(".fade2").addClass("bounceInLeft");
+		$(".fade3").addClass("bounceInRight");
 	}
 }
